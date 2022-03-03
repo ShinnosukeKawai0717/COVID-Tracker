@@ -1,0 +1,7 @@
+${PODS_ROOT}/Target Support Files/Pods-COVID Tracker 2.0/Pods-COVID Tracker 2.0-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Algorithm/Algorithm.framework
+${BUILT_PRODUCTS_DIR}/CSV.swift/CSV.framework
+${BUILT_PRODUCTS_DIR}/Charts/Charts.framework
+${BUILT_PRODUCTS_DIR}/Disk/Disk.framework
+${BUILT_PRODUCTS_DIR}/FloatingPanel/FloatingPanel.framework
+${BUILT_PRODUCTS_DIR}/ProgressHUD/ProgressHUD.framework
