@@ -30,6 +30,7 @@ class COVIDDataViewController: UIViewController {
         return header
     }()
     private let popDownMenuView = PopDownMenuViewController()
+    private let regionListVC = RegionListViewController()
     public var region = Region() {
         didSet {
             modifyTimeseries()
@@ -68,7 +69,7 @@ class COVIDDataViewController: UIViewController {
         covidStatsTableView.dataSource = self
         covidStatsTableView.delegate = self
         popDownMenuView.popDownMenuDelegate = self
-        RegionListViewController.sharedInstance.regionListDelegate = self
+        regionListVC.regionListDelegate = self
         topHeaderView.addTargetForMenuButton(target: self, selector: #selector(menuButtonPressed), for: .touchUpInside)
         topHeaderView.addTargetForSearchButton(target: self, action: #selector(searchTapped), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(didRegionLoaded), name: Notification.Name(rawValue: "regions"), object: nil)
@@ -83,7 +84,7 @@ class COVIDDataViewController: UIViewController {
     @objc func didRegionLoaded(_ notification: Notification) {
         let regions = notification.object as! [Region]
         topThreeRegions = Array(regions[0..<3])
-        RegionListViewController.sharedInstance.retrieveRegions(regions)
+        regionListVC.retrieveRegions(regions)
     }
     @objc func didReceiveMyRegion(_ notification: Notification) {
         let myRegion = notification.object as! Region
@@ -95,9 +96,8 @@ class COVIDDataViewController: UIViewController {
     }
     
     @objc func searchTapped() {
-        let regionVC = RegionListViewController.sharedInstance
-        present(regionVC, animated: true){
-            regionVC.showKeyBoard()
+        present(regionListVC, animated: true){
+            self.regionListVC.showKeyBoard()
         }
     }
     

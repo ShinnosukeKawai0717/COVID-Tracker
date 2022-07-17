@@ -13,8 +13,13 @@ import Disk
 import CSV
 import ProgressHUD
 
+protocol HomeViewControllerDelegate: AnyObject {
+    func homeViewController(_ vc: HomeViewController, didLoad regions: [Region])
+}
+
 class HomeViewController: UIViewController {
     
+    weak var delegate: HomeViewControllerDelegate?
     private let covidDataVC = COVIDDataViewController()
     private let covidStatsFP = FloatingPanelController()
     private var regionAnnotations = [RegionAnnotation]()
@@ -51,7 +56,7 @@ class HomeViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.covidStatsFP.addPanel(toParent: self, animated: true)
+        
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -71,10 +76,14 @@ class HomeViewController: UIViewController {
     }
     private func initializeMapView() {
         ProgressHUD.show()
-        DataManager.shared.loadData { regions in
+        DataManager.shared.loadData { [weak self] regions in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.delegate?.homeViewController(strongSelf, didLoad: regions)
             NotificationCenter.default.post(name: Notification.Name(rawValue: "regions"), object: regions)
-            self.createRegionAnnotations(regions)
-            self.findMyRegion(regions)
+            strongSelf.createRegionAnnotations(regions)
+            strongSelf.findMyRegion(regions)
             ProgressHUD.dismiss()
         }
     }
@@ -99,6 +108,7 @@ class HomeViewController: UIViewController {
         self.covidDataVC.getStatsHeader().configureDataLabels(with: myRegion)
     }
     private func initializeFPView() {
+        covidStatsFP.addPanel(toParent: self, animated: true)
         LocationManager.shared.getCurrentLocation { location in
             self.mapView.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.2)), animated: false)
         }
@@ -174,7 +184,6 @@ extension HomeViewController: MKMapViewDelegate {
         self.mapView.removeAnnotations(self.mapView.annotations)
         let temp = self.regionAnnotations
         let filteredRegions = temp.map(mapView.filterRegion)
-        print(mapView.currentZoomLevel)
         mapView.superview?.animate {
             self.mapView.addAnnotations(filteredRegions)
         }

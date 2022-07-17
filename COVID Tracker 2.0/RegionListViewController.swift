@@ -31,7 +31,7 @@ class RegionListViewController: UIViewController {
         }
     }
     
-    static let sharedInstance = RegionListViewController()
+//    static let sharedInstance = RegionListViewController()
     weak var regionListDelegate: RegionListViewControllerDelegate?
     
     override func viewDidLoad() {
