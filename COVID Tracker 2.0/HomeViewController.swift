@@ -41,7 +41,6 @@ class HomeViewController: UIViewController {
         button.imageView?.tintColor = .systemGray
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .systemBackground
-        button.addTarget(self, action: #selector(didTappedLocation), for: .touchUpInside)
         return button
     }()
     override func viewDidLoad() {
@@ -66,6 +65,7 @@ class HomeViewController: UIViewController {
         self.dismissKeyBoardWhenTappedAround()
         covidStatsFP.set(contentViewController: covidDataVC)
         covidStatsFP.surfaceView.appearance.cornerRadius = 20
+        locationButton.addTarget(self, action: #selector(didTappedLocation), for: .touchUpInside)
         covidDataVC.getTopHeader().addTargetForMenuButton(target: self, selector: #selector(menuPressed), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveCoordinate), name: Notification.Name("region for map center"), object: nil)
     }

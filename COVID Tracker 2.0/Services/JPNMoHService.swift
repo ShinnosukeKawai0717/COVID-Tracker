@@ -51,61 +51,60 @@ class JPNMoHService: DataService {
             dispatchGroup.leave()
         }
         
-        dispatchGroup.notify(queue: .global()) {
-            self.parseData(result)
-        }
+//        dispatchGroup.notify(queue: .global()) {
+//            self.parseData(result)
+//        }
     }
     
-    func parseData(_ data: [Data?]) {
-        guard let dailyConfirmedCases = data[0] else { return }
-        guard let cumulativeConfirmedCases = data[1] else { return }
-        guard let cumulativeDeath = data[2] else { return }
-        guard let dailyDeath = data[3] else { return }
-        guard let cumulativeRecovered = data[4] else { return }
-        do {
-            let reader1 = try CSVReader(string: String(data: dailyConfirmedCases, encoding: .utf8)!, hasHeaderRow: false)
-            var transposedCSV = reader1.map({$0}).transposed()
-            let dates = transposedCSV[0].dropFirst().map(Date.convertFromStr)
-            
-            let reader2 = try CSVReader(string: String(data: dailyConfirmedCases, encoding: .utf8)!, hasHeaderRow: false)
-            transposedCSV = reader2.map({$0}).transposed()
-            var reducedArr = Array(transposedCSV[2..<transposedCSV.count])
-            let prefectures = reducedArr.map(convertToPrefecture)
-            
-            let reader3 = try CSVReader(string: String(data: dailyConfirmedCases, encoding: .utf8)!, hasHeaderRow: false)
-            transposedCSV = reader3.map({$0}).transposed()
-            reducedArr = Array(transposedCSV[2..<transposedCSV.count])
-            let newConfirmedCases = createStatistic(dates, reducedArr)
-            
-        } catch {
-            print(error)
-        }
-    }
-    
-    func generatePrefectures(_ dates: [Date], _ dailynewCases: [[IndexingIterator<Array<String>>.Element]]) -> [Country] {
-        var prefectures = [Country]()
-        
-        return prefectures
-    }
-    
-    func convertToPrefecture(_ raw: [String]) -> Country {
-        let prefecture = Country()
-        prefecture.province_state = raw.first!
-        prefecture.name = "Japan"
-        prefecture.regionType = .province_state
-        prefecture.coordinate = RegionCode.prefectures[raw.first!]!
-        return prefecture
-    }
-    
-    func createStatistic(_ dates: [Date], _ newConfirmed: [[IndexingIterator<Array<String>>.Element]]) -> [String: [Date : Report]]{
-        var result = [String:[Date:Report]]()
-        for raw in newConfirmed {
-            let key = raw[0]
-            var value = [Date:Report]()
-            print(raw.count)
-        }
-        print(dates.count)
-        return result
-    }
+//    func parseData(_ data: [Data?]) {
+//        guard let dailyConfirmedCases = data[0] else { return }
+//        guard let cumulativeConfirmedCases = data[1] else { return }
+//        guard let cumulativeDeath = data[2] else { return }
+//        guard let dailyDeath = data[3] else { return }
+//        guard let cumulativeRecovered = data[4] else { return }
+//        do {
+//            let reader1 = try CSVReader(string: String(data: dailyConfirmedCases, encoding: .utf8)!, hasHeaderRow: false)
+//            var transposedCSV = reader1.map({$0}).transposed()
+//            let dates = transposedCSV[0].dropFirst().map(Date.convertFromStr)
+//
+//            let reader2 = try CSVReader(string: String(data: dailyConfirmedCases, encoding: .utf8)!, hasHeaderRow: false)
+//            transposedCSV = reader2.map({$0}).transposed()
+//            var reducedArr = Array(transposedCSV[2..<transposedCSV.count])
+//            let prefectures = reducedArr.map(convertToPrefecture)
+//
+//            let reader3 = try CSVReader(string: String(data: dailyConfirmedCases, encoding: .utf8)!, hasHeaderRow: false)
+//            transposedCSV = reader3.map({$0}).transposed()
+//            reducedArr = Array(transposedCSV[2..<transposedCSV.count])
+//            let newConfirmedCases = createStatistic(dates, reducedArr)
+//
+//        } catch {
+//            print(error)
+//        }
+//    }
+//
+//    func generatePrefectures(_ dates: [Date], _ dailynewCases: [[IndexingIterator<Array<String>>.Element]]) -> [Country] {
+//        var prefectures = [Country]()
+//
+//        return prefectures
+//    }
+//
+//    func convertToPrefecture(_ raw: [String]) -> Country {
+//        let prefecture = Country()
+//        prefecture.province_state = raw.first!
+//        prefecture.name = "Japan"
+//        prefecture.regionType = .province_state
+//        prefecture.coordinate = RegionCode.prefectures[raw.first!]!
+//        return prefecture
+//    }
+//
+//    func createStatistic(_ dates: [Date], _ newConfirmed: [[IndexingIterator<Array<String>>.Element]]) -> [String: [Date : Report]]{
+//        var result = [String:[Date:Report]]()
+//        for raw in newConfirmed {
+//            let key = raw[0]
+//            var value = [Date:Report]()
+//        }
+//        print(dates.count)
+//        return result
+//    }
     
 }
