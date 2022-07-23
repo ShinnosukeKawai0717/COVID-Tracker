@@ -10,6 +10,10 @@ import Disk
 import CoreLocation
 import MapKit
 
+protocol COVIDDataViewControllerDelegate: AnyObject {
+    func covidDataViewController(_ vc: COVIDDataViewController, didLoad regions: [Region])
+}
+
 class COVIDDataViewController: UIViewController {
     
     private let covidStatsTableView: UITableView = {
@@ -21,14 +25,8 @@ class COVIDDataViewController: UIViewController {
         table.isHidden = false
         return table
     }()
-    private let statsHeader : StatsHeaderView = {
-        let header = StatsHeaderView()
-        return header
-    }()
-    private let topHeaderView: TopHeaderView = {
-       let header = TopHeaderView()
-        return header
-    }()
+    private let statsHeader = StatsHeaderView()
+    private let topHeaderView = TopHeaderView()
     private let popDownMenuView = PopDownMenuViewController()
     private let regionListVC = RegionListViewController()
     public var region = Region() {
@@ -64,27 +62,21 @@ class COVIDDataViewController: UIViewController {
     public func getStatsHeader() -> StatsHeaderView {
         return self.statsHeader
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         covidStatsTableView.dataSource = self
         covidStatsTableView.delegate = self
         popDownMenuView.popDownMenuDelegate = self
-        regionListVC.regionListDelegate = self
+        regionListVC.delegate = self
         topHeaderView.addTargetForMenuButton(target: self, selector: #selector(menuButtonPressed), for: .touchUpInside)
         topHeaderView.addTargetForSearchButton(target: self, action: #selector(searchTapped), for: .touchUpInside)
-        NotificationCenter.default.addObserver(self, selector: #selector(didRegionLoaded), name: Notification.Name(rawValue: "regions"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveRegion), name: Notification.Name("region for stats header"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMyRegion), name: Notification.Name("my region"), object: nil)
     }
+    
     @objc func didReceiveRegion(_ notification: Notification) {
         let selectedRegion = notification.object as! Region
         self.statsHeader.configureDataLabels(with: selectedRegion)
         self.topHeaderView.configureTitle(with: selectedRegion)
-    }
-    @objc func didRegionLoaded(_ notification: Notification) {
-        let regions = notification.object as! [Region]
-        topThreeRegions = Array(regions[0..<3])
-        regionListVC.retrieveRegions(regions)
     }
     @objc func didReceiveMyRegion(_ notification: Notification) {
         let myRegion = notification.object as! Region
@@ -96,7 +88,7 @@ class COVIDDataViewController: UIViewController {
     }
     
     @objc func searchTapped() {
-        present(regionListVC, animated: true){
+        self.present(regionListVC, animated: true) {
             self.regionListVC.showKeyBoard()
         }
     }
@@ -127,7 +119,7 @@ class COVIDDataViewController: UIViewController {
     
     private func addConstraintsTopHeader() {
         NSLayoutConstraint.activate([
-            topHeaderView.topAnchor.constraint(equalTo: view.topAnchor, constant: 12),
+            topHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             topHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             topHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             topHeaderView.heightAnchor.constraint(equalToConstant: 80)
@@ -135,21 +127,28 @@ class COVIDDataViewController: UIViewController {
     }
     
     private func addConstraintsToCovidStats() {
-        var constrains = [NSLayoutConstraint]()
-        constrains.append(covidStatsTableView.topAnchor.constraint(equalTo: topHeaderView.bottomAnchor))
-        constrains.append(covidStatsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor))
-        constrains.append(covidStatsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor))
-        constrains.append(covidStatsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor))
-        NSLayoutConstraint.activate(constrains)
+        NSLayoutConstraint.activate([
+            covidStatsTableView.topAnchor.constraint(equalTo: topHeaderView.bottomAnchor),
+            covidStatsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            covidStatsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            covidStatsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
 
-extension COVIDDataViewController: PopDownMenuViewControllerDelegate, RegionListViewControllerDelegate {
+extension COVIDDataViewController: PopDownMenuViewControllerDelegate, RegionListViewControllerDelegate, HomeViewControllerDelegate {
+    func homeViewController(_ vc: HomeViewController, didLoad regions: [Region]) {
+        topThreeRegions = Array(regions[0..<3])
+        regionListVC.setRegions(regions)
+    }
+    
     func dateRangeSelected(range: Int) {
         self.dateRange = range
     }
-    func regionList(regionPicked region: Region) {
+    func regionListViewController(_ vc: RegionListViewController, didPick region: Region) {
         self.region = region
+        self.statsHeader.configureDataLabels(with: region)
+        self.topHeaderView.configureTitle(with: region)
     }
 }
 

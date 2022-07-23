@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol RegionListViewControllerDelegate: AnyObject {
+    func regionListViewController(_ vc: RegionListViewController, didPick region: Region)
+}
+
 class RegionListViewController: UIViewController {
     private let regionListTableView: UITableView = {
         let table = UITableView()
@@ -18,7 +22,7 @@ class RegionListViewController: UIViewController {
         let bar = UISearchBar()
         bar.placeholder = "Search here"
         bar.translatesAutoresizingMaskIntoConstraints = false
-        bar.searchTextField.font = .boldSystemFont(ofSize: 18)
+        bar.searchTextField.font = .boldSystemFont(ofSize: 15)
         return bar
     }()
     private var filteredRegions = [Region]()
@@ -30,10 +34,7 @@ class RegionListViewController: UIViewController {
             }
         }
     }
-    
-//    static let sharedInstance = RegionListViewController()
-    weak var regionListDelegate: RegionListViewControllerDelegate?
-    
+    weak var delegate: RegionListViewControllerDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.regionListTableView.delegate = self
@@ -49,7 +50,7 @@ class RegionListViewController: UIViewController {
         layoutTableView()
     }
     
-    public func retrieveRegions(_ regions: [Region]) {
+    public func setRegions(_ regions: [Region]) {
         self.regions = regions
     }
     public func showKeyBoard() {
@@ -57,10 +58,10 @@ class RegionListViewController: UIViewController {
     }
     private func layoutSearchBar() {
         NSLayoutConstraint.activate([
-            regionSearchBar.topAnchor.constraint(equalTo: view.topAnchor),
+            regionSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             regionSearchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             regionSearchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            regionSearchBar.heightAnchor.constraint(equalToConstant: view.frame.height / 10)
+            regionSearchBar.heightAnchor.constraint(equalToConstant: view.frame.height / 12)
         ])
     }
     private func layoutTableView() {
@@ -97,11 +98,10 @@ extension RegionListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedCountry = filteredRegions[indexPath.row]
-        if let selectionDelegate = regionListDelegate {
-            selectionDelegate.regionList(regionPicked: selectedCountry)
+        if let selectionDelegate = delegate {
+            selectionDelegate.regionListViewController(self, didPick: selectedCountry)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "region for map center"), object: selectedCountry.coordinate)
         }
-        NotificationCenter.default.post(name: Notification.Name("region for stats header"), object: selectedCountry)
-        NotificationCenter.default.post(name: Notification.Name("region for map center"), object: selectedCountry.coordinate)
         regionSearchBar.text = ""
         self.dismiss(animated: true, completion: nil)
     }

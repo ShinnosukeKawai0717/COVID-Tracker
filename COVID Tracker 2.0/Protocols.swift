@@ -10,6 +10,3 @@ import Foundation
 protocol PopDownMenuViewControllerDelegate: AnyObject {
     func dateRangeSelected(range: Int)
 }
-protocol RegionListViewControllerDelegate: AnyObject {
-    func regionList(regionPicked region: Region)
-}
