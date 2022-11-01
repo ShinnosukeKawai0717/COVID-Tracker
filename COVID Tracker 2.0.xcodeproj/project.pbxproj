@@ -20,7 +20,6 @@
 		7D0DE75427557AAA00D6D742 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D0DE75327557AAA00D6D742 /* Assets.xcassets */; };
 		7D0DE75727557AAA00D6D742 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D0DE75527557AAA00D6D742 /* LaunchScreen.storyboard */; };
 		7D0DE77C275581AA00D6D742 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0DE77B275581AA00D6D742 /* LocationManager.swift */; };
-		7D21CF1727AC9D540052A148 /* COVIDActService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D21CF1627AC9D540052A148 /* COVIDActService.swift */; };
 		7D21CF1927ACA5730052A148 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D21CF1827ACA5730052A148 /* Coordinate.swift */; };
 		7D21CF1C27ACAC240052A148 /* statelatlong.csv in Resources */ = {isa = PBXBuildFile; fileRef = 7D21CF1B27ACAC240052A148 /* statelatlong.csv */; };
 		7D242D3D27C1DCF000307A51 /* ValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D242D3C27C1DCF000307A51 /* ValueFormatter.swift */; };
@@ -70,7 +69,6 @@
 		7D0DE75627557AAA00D6D742 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7D0DE75827557AAA00D6D742 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D0DE77B275581AA00D6D742 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		7D21CF1627AC9D540052A148 /* COVIDActService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COVIDActService.swift; sourceTree = "<group>"; };
 		7D21CF1827ACA5730052A148 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		7D21CF1B27ACAC240052A148 /* statelatlong.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = statelatlong.csv; sourceTree = "<group>"; };
 		7D242D3C27C1DCF000307A51 /* ValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueFormatter.swift; sourceTree = "<group>"; };
@@ -224,7 +222,6 @@
 			isa = PBXGroup;
 			children = (
 				7D3DFD2227A71BF300F9B5D7 /* JHUService.swift */,
-				7D21CF1627AC9D540052A148 /* COVIDActService.swift */,
 				7D09F1B727B6F39700B4D082 /* CANGovService.swift */,
 				7D425EB027BC96E500A1DEEF /* JPNMoHService.swift */,
 				7DF99F2A27C2DCD7002EE171 /* DataService.swift */,
@@ -430,7 +427,6 @@
 				7DB7F6C52782EE3B00D7CA11 /* TopHeaderView.swift in Sources */,
 				7DC7D70F2786F35B003ABE37 /* StatsHeaderView.swift in Sources */,
 				7D0DE74827557AA800D6D742 /* AppDelegate.swift in Sources */,
-				7D21CF1727AC9D540052A148 /* COVIDActService.swift in Sources */,
 				7D3DFD2027A7197C00F9B5D7 /* DataManager.swift in Sources */,
 				7DC39C0D2783DCC8004F0823 /* BarChartTableViewCell.swift in Sources */,
 				7D2753AF27BDCD6E00003B97 /* RegionManager.swift in Sources */,

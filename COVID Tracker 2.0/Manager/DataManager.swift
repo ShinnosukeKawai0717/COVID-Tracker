@@ -30,13 +30,6 @@ class DataManager {
             print("Successfuly fetched canada data")
         }
         
-//        dispatchGroup.enter()
-//        COVIDActService.shard.fetchUSData { result in
-//            regions += result
-//            dispatchGroup.leave()
-//            print("Successfuly fetched the us data")
-//        }
-        
         dispatchGroup.notify(queue: .main) {
             // remove minor regions and sort by total cases
             regions = RegionManager.shared.sort(regions, by: .confirmed).filter(self.removeRegions)
