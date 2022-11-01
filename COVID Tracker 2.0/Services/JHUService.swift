@@ -37,8 +37,8 @@ class JHUService: DataService {
             print("successfully downloaded death global")
         }
         
-        dispatchGroup.notify(queue: .global()) {
-            self.parseTimeSeries(data)
+        dispatchGroup.notify(queue: .global()) { [weak self] in
+            self?.parseTimeSeries(data)
         }
     }
     
@@ -96,8 +96,8 @@ class JHUService: DataService {
         }
         
         print("finished parsing")
-        DispatchQueue.global().async {
-            self.completion?(completeRegions)
+        DispatchQueue.global().async { [weak self] in
+            self?.completion?(completeRegions)
         }
     }
     

@@ -40,15 +40,15 @@ class COVIDDataViewController: UIViewController {
     }
     private var topThreeRegions = [Region]() {
         didSet {
-            DispatchQueue.main.async {
-                self.covidStatsTableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.covidStatsTableView.reloadData()
             }
         }
     }
     private var timeseries = [Timeseries]() {
         didSet {
-            DispatchQueue.main.async {
-                self.covidStatsTableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.covidStatsTableView.reloadData()
             }
         }
     }

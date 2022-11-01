@@ -127,8 +127,8 @@ extension RegionListViewController: UISearchBarDelegate {
                 return nation.combined_key.lowercased().contains(searchText.lowercased())
             })
         }
-        DispatchQueue.main.async {
-            self.regionListTableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.regionListTableView.reloadData()
         }
     }
 }

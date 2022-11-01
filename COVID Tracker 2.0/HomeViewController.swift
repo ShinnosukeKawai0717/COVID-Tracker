@@ -76,8 +76,8 @@ class HomeViewController: UIViewController {
         self.mapCenter = location.getCLCoordinate2D()
     }
     private func initializeFPView() {
-        LocationManager.shared.getCurrentLocation { location in
-            self.mapView.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.2)), animated: false)
+        LocationManager.shared.getCurrentLocation { [weak self] location in
+            self?.mapView.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.2)), animated: false)
         }
     }
     @objc func menuPressed() {
@@ -125,8 +125,8 @@ extension HomeViewController: MKMapViewDelegate {
         self.mapView.removeAnnotations(self.mapView.annotations)
         let temp = self.regionAnnotations
         let filteredRegions = temp.map(mapView.filterRegion)
-        mapView.superview?.animate {
-            self.mapView.addAnnotations(filteredRegions)
+        mapView.superview?.animate { [weak self] in
+            self?.mapView.addAnnotations(filteredRegions)
         }
     }
     
