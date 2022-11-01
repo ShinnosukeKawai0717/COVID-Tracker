@@ -23,7 +23,7 @@ extension UIViewController {
 }
 
 extension MKMapView {
-    open var currentZoomLevel: Double {
+    public var currentZoomLevel: Double {
         let z = log2(360.0 * self.frame.size.width / (self.region.span.longitudeDelta * 128))
         return z
     }

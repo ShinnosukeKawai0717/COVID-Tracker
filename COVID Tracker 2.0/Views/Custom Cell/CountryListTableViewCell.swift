@@ -68,7 +68,6 @@ class CountryListTableViewCell: UITableViewCell {
     
     private lazy var chartDataSet: LineChartDataSet = {
         let dataSet = LineChartDataSet(label: "")
-        dataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90)
         dataSet.fillAlpha = 0.8
         dataSet.drawFilledEnabled = true
         dataSet.mode = .linear

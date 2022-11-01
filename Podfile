@@ -5,7 +5,6 @@ target 'COVID Tracker 2.0' do
   use_frameworks!
       pod 'FloatingPanel'
       pod 'Charts'
-      pod 'Disk', '~> 0.6.4'
       pod 'CSV.swift'
       pod 'ProgressHUD'
       pod 'Algorithm', '~> 3.1.0'

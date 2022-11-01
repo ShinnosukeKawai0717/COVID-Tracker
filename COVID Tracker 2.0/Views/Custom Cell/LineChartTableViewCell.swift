@@ -24,7 +24,7 @@ class LineChartTableViewCell: UITableViewCell {
     
     private lazy var lineChartDataSet: LineChartDataSet = {
         let dataSet = LineChartDataSet(label: "Daily deaths")
-        dataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90) // Set the Gradient
+        dataSet.fill = LinearGradientFill(gradient: gradient!) // Set the Gradient
         dataSet.fillAlpha = 0.8
         dataSet.drawFilledEnabled = true // Draw the Gradient
         dataSet.mode = .linear

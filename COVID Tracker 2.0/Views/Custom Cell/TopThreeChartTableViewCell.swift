@@ -47,9 +47,33 @@ class TopThreeChartTableViewCell: UITableViewCell {
         return dataSet
     }()
     
-    let firstLegend = LegendEntry(label: "", form: .circle, formSize: 12, formLineWidth: 2, formLineDashPhase: 2, formLineDashLengths: nil, formColor: .systemRed)
-    let secondLegend = LegendEntry(label: "", form: .circle, formSize: 12, formLineWidth: 2, formLineDashPhase: 2, formLineDashLengths: nil, formColor: .systemBlue)
-    let thirdLegend = LegendEntry(label: "", form: .circle, formSize: 12, formLineWidth: 2, formLineDashPhase: 2, formLineDashLengths: nil, formColor: .systemGreen)
+    private let firstLegend: LegendEntry = {
+        let legend = LegendEntry()
+        legend.form = .circle
+        legend.formSize = 12
+        legend.formLineWidth = 2
+        legend.formLineDashPhase = 2
+        legend.formColor = .systemRed
+        return legend
+    }()
+    private let secondLegend: LegendEntry = {
+        let legend = LegendEntry()
+        legend.form = .circle
+        legend.formSize = 12
+        legend.formLineWidth = 2
+        legend.formLineDashPhase = 2
+        legend.formColor = .systemBlue
+        return legend
+    }()
+    private let thirdLegend: LegendEntry = {
+        let legend = LegendEntry()
+        legend.form = .circle
+        legend.formSize = 12
+        legend.formLineWidth = 2
+        legend.formLineDashPhase = 2
+        legend.formColor = .systemGreen
+        return legend
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -101,9 +125,7 @@ class TopThreeChartTableViewCell: UITableViewCell {
             self.topThreeChartView.animate(xAxisDuration: 2.0)
         }
     }
-    func setTimeSeries(_ timeseries: [[Timeseries]]) {
-        
-    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.addSubview(topThreeChartView)
